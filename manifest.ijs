@@ -5,12 +5,12 @@ CAPTION=: 'Read and write CSV files and strings'
 DESCRIPTION=: 0 : 0
 Reads/writes/appends Comma-separated value (CSV) files and strings.
 Supports user-defined field and string delimiters.
-Features and performance are generally better than the CSV script in the base library.
+More features and generally better performance than the base library CSV script.
 
 Contributed by Ric Sherlock.
 )
 
-NB. VERSION=: '1.0.0'
+VERSION=: '1.0.0'
 
 RELEASE=: 'j602'
 
