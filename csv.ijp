@@ -1,0 +1,43 @@
+NB. project file: c:/users/rsherloc/documents/j602-user/jsrc/addons/tables/csv/csv
+
+coclass 'jproject'
+
+PRIMARYFILES=: '~Addons/tables/csv/csv_src'
+
+PRIMARYLIBS=: 0 : 0
+files
+strings
+)
+
+DEVFILES=: ''
+
+DEVLIBS=: ''
+
+OTHERFILES=: 0 : 0
+~Addons/tables/csv/history.txt
+~Addons/tables/csv/manifest.ijs
+~Addons/tables/csv/test.ijs
+~Addons/tables/csv/perform.ijs
+)
+
+TARGETFILE=: '~Addons/tables/csv/csv.ijs'
+
+TARGETLOCALE=: 'z'
+
+TARGETHEADER=: ''
+
+TARGETEXTRA=: ''
+
+BUILDOPTS=: 0 1 0 0 0 0 0
+
+PREBUILDFILE=: ''
+
+POSTBUILDFILE=: ''
+
+TESTFILE=: '~Addons/tables/csv/test_src.ijs'
+
+NOTES=: ''
+
+VERSION=: ''
+
+WINDOWS=: ''
