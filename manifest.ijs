@@ -10,7 +10,7 @@ More features and generally better performance than the base library CSV script.
 Contributed by Ric Sherlock.
 )
 
-VERSION=: '1.0.0'
+VERSION=: '1.0.1'
 
 RELEASE=: 'j602'
 

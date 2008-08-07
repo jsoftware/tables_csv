@@ -10,8 +10,8 @@ cocurrent 'z'
 
 NB. =========================================================
 NB.*appendcsv v Appends an array to a csv file
-NB. result: number of bytes appended or _1 if unsuccessful
 NB. form: dat appendcsv file[;fd[,sd0[,sd1]]]
+NB. returns: number of bytes appended or _1 if unsuccessful
 NB. y is: literal or 2-item list of boxed literals
 NB.       0{ filename of file to append dat to
 NB.       1{ optional delimiters. Default is ',""'
@@ -58,7 +58,7 @@ extcsv=: , #&'.csv' @ (0: = '.'"_ e. (# | i:&PATHSEP_j_) }. ])
 NB. =========================================================
 NB.*fixcsv v Convert csv data into J array
 NB. form: [fd[,sd0[,sd1]]] fixcsv dat
-NB. result: array of boxed literals
+NB. returns: array of boxed literals
 NB. y is: delimited string
 NB. x is: optional delimiters. Default is ',""'
 NB.       0{ field delimiter (fd)
@@ -144,8 +144,8 @@ makecsv=: 3 : 0
 
 NB. =========================================================
 NB.*makenum v Converts cells in array of boxed literals to numeric where possible
-NB. returns: numeric array or array of boxed literals and numbers
 NB. form: [err] makenum array
+NB. returns: numeric array or array of boxed literals and numbers
 NB. y is: an array of boxed literals
 NB. x is: optional numeric error code. Default is _9999
 makenum=: 3 : 0
@@ -163,8 +163,8 @@ makenum=: 3 : 0
 
 NB. =========================================================
 NB.*quote v Encloses string in quotes
-NB. result: quoted string
 NB. form: [sd0[,sd1]] quote strng(s)
+NB. returns: quoted string
 NB. y is: string or boxed strings to quote
 NB. x is: optional quote type. Default is ''''''
 NB.       0{ is (start) string delimiter (sd0)
@@ -181,7 +181,7 @@ quote=: 3 : 0
 NB. =========================================================
 NB.*readcsv v Reads csv file into a boxed array
 NB. form: [fd[,sd0[,sd1]]] readcsv file
-NB. result: array of boxed literals
+NB. returns: array of boxed literals
 NB. y is: filename of file to read from
 NB. x is: optional delimiters. Default is ',""'
 NB.       0{ field delimiter (fd)
@@ -198,8 +198,7 @@ readcsv=: 3 : 0
 NB. =========================================================
 NB.*writecsv v Writes an array to a csv file
 NB. form: dat writecsv file[;fd[,sd0[,sd1]]]
-NB. result: number of bytes written (_1 if write error)
-NB. form: dat appendcsv file[;delim]
+NB. returns: number of bytes written (_1 if write error)
 NB. y is: literal or 2-item list of boxed literals
 NB.       0{ filename of file to write dat to
 NB.       1{ optional delimiters. Default is ',""'
