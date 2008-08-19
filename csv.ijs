@@ -1,4 +1,4 @@
-NB. built from project: ~user/jsrc/addons/tables/csv/csv
+NB. built from project: ~Addons/tables/csv/csv
 NB. read/write comma-separated value data (*.csv) files
 NB. supports user-specified field and string delimiters.
 
@@ -159,6 +159,25 @@ makenum=: 3 : 0
     dat=. >dat NB. unbox to list if all numeric
   end.
   ($y)$dat
+)
+
+NB. =========================================================
+NB.*makenumcol v Converts columns in array of boxed literals to numeric where possible
+NB. form: [err] makenumcol array
+NB. returns: numeric array or array of boxed literal and numeric columns
+NB. y is: an array of boxed literals
+NB. x is: optional numeric error code. Default is _9999
+makenumcol=: 3 : 0
+  _9999 makenumcol y
+  :
+  dat=. x&". &.> y=. boxopen y
+  notnum=. x&e.@> dat
+  idx=. I. +./notnum
+  if. #idx do.
+    dat=. (idx{"1 y) (<a:;idx)}dat NB. amend non-numeric cells
+  else.
+    dat=. >dat NB. unbox to list if all numeric
+  end.
 )
 
 NB. =========================================================

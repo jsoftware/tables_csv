@@ -1,14 +1,8 @@
 NB. test csv addon
 
-NB. require 'tables/csv'
-
-Note 'Test instructions'
-NB. To run test:
-NB.  * load csv script by running next line (Run|Line)
-load 'tables/csv'
-NB.  * load this script (Run|Window)
-NB.  * run the next line (Run|Line)
-test ''
+Note 'To run all tests:'
+  load 'tables/csv'
+  load 'tables/csv/test_csv'
 )
 
 NB. =========================================================
@@ -114,5 +108,7 @@ test=: 3 : 0
   
   assert. 1 = ferase t1
   
-  smoutput 'All tests passed OK.'
+  'test_csv passed'
 )
+
+smoutput test''

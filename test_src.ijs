@@ -1,7 +1,6 @@
 NB. test
 buildproject_jproject_ ''
-load TARGETFILE_jproject_
-tstpth=. PATHSEP_j_ dropto &.|. TESTFILE_jproject_
-open tstpth,'test.ijs'
-load tstpth,'test.ijs'
-test ''
+loadtarget_jproject_ ''
+TestPath=. getpath_j_ (#getpath_j_ TARGETFILE_jproject_)}.TESTFILE_jproject_
+TestFile=.'test_',(#@getpath_j_ }. ]) TARGETFILE_jproject_
+loadscript_jproject_ TestPath,TestFile
