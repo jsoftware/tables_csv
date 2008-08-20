@@ -155,19 +155,20 @@ makenum=: 3 : 0
 )
 
 NB. =========================================================
-NB.*makenumcol v Converts columns in array of boxed literals to numeric where possible
+NB.*makenumcol v Converts columns in table of boxed literals to numeric where possible
 NB. form: [err] makenumcol array
 NB. returns: numeric array or array of boxed literal and numeric columns
 NB. y is: an array of boxed literals
 NB. x is: optional numeric error code. Default is _9999
+NB. Only converts column to numeric if conversion is possible for whole column
 makenumcol=: 3 : 0
   _9999 makenumcol y
   :
   dat=. x&". &.> y=. boxopen y
-  notnum=. x&e.@> dat
-  idx=. I. +./notnum
+  notnum=. x&e.@> dat NB. mask of boxes containing error code
+  idx=. I. +./notnum  NB. index of non-numeric columns
   if. #idx do.
-    dat=. (idx{"1 y) (<a:;idx)}dat NB. amend non-numeric cells
+    dat=. (idx{"1 y) (<a:;idx)}dat NB. amend non-numeric columns
   else.
     dat=. >dat NB. unbox to list if all numeric
   end.
