@@ -2,7 +2,12 @@ NB. project file: c:/users/rsherloc/documents/j602-user/jsrc/addons/tables/csv/c
 
 coclass 'jproject'
 
-PRIMARYFILES=: '~Addons/tables/csv/csv_src'
+PRIMARYFILES=: 0 : 0
+~Addons/tables/csv/init
+~Addons/tables/csv/utils
+~Addons/tables/csv/fromcsv
+~Addons/tables/csv/tocsv
+)
 
 PRIMARYLIBS=: 0 : 0
 files
