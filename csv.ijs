@@ -72,77 +72,81 @@ makenumcol=: 3 : 0
 
 NB. =========================================================
 NB.*chopcsv v Box delimited fields in string
-NB. form: [fd[,sd0[,sd1]]] chopcsv string
+NB. form: [fd[;sd0[,sd1]]] chopcsv string
 NB. returns: list of boxed literals
 NB. y is: delimited string
-NB. x is: optional delimiters. Default is ',""'
-NB.       0{ field delimiter (fd)
-NB.       1{ (start) string delimiter (sd0)
-NB.       2{ end string delimiter (sd1)
+NB. x is: literal or 1 or 2-item boxed list of optional delimiters.
+NB.       0{:: single literal field delimiter (fd). Defaults to ','
+NB.   (1;0){:: (start) string delimiter (sd0). Defaults to '"'
+NB.   (1;1){:: end string delimiter (sd1). Defaults to '"'
+NB. eg: ('|';'<>') chopcsv '<hello world>|4|84.3'
 chopcsv=: 3 : 0
-  ',""' chopcsv y
+  (',';'""') chopcsv y
   :
   dat=. y
-  assert. (0<#x), 0=L.x
-  if. 1=#x do. sd=. '""'
-  else. sd=. 2$}.x end.
-  fd=. {.x
-  if. =/sd do. sd=. {.sd
+  x=. boxopen x
+  if. 1=#x do. x=. x,<'""' end.
+  'fd sd'=. 2{.x
+  assert. 1 = #fd
+  if. =/sd do. sd=. (-<:#sd)}.sd   NB. empty, one or two same
   else. NB. replace diff start and end delims with single
     s=. {.('|'=fd){ '|`'  NB. choose single sd
     dat=. dat rplc ({.sd);s;({:sd);s
     sd=. s
   end.
   dat=. dat,fd
-  b=. dat = fd
-  c=. dat = sd
+  b=. dat e. fd
+  c=. dat e. sd
   d=. ~:/\ c                       NB. mask inside sds
   fmsk=. b > d                     NB. end of fields
   smsk=. (> (0 , }:)) c            NB. first in group of sds
   smsk=. -. smsk +. c *. 1|.fmsk   NB. or previous to fd
-  dat=. smsk#dat  NB. compress out string delims
+  y=. smsk#y,fd   NB. compress out string delims
   fmsk=. smsk#fmsk
-  fmsk <;._2 dat  NB. box
+  fmsk <;._2 y  NB. box
 )
 
 NB. =========================================================
 NB.*fixcsv v Convert csv data into J array
-NB. form: [fd[,sd0[,sd1]]] fixcsv dat
+NB. form: [fd[;sd0[,sd1]]] fixcsv dat
 NB. returns: array of boxed literals
 NB. y is: delimited string
-NB. x is: optional delimiters. Default is ',""'
-NB.       0{ field delimiter (fd)
-NB.       1{ (start) string delimiter (sd0)
-NB.       2{ end string delimiter (sd1)
+NB. x is: literal or 1 or 2-item boxed list of optional delimiters.
+NB.       0{:: field delimiter (fd). Defaults to ','
+NB.   (1;0){:: (start) string delimiter (sd0). Defaults to '"'
+NB.   (1;1){:: end string delimiter (sd1). Defaults to '"'
+NB. eg: ('|';'<>') fixcsv '<hello world>|4|84.3',LF,'<Big dig>|<hello world>|4',LF
 fixcsv=: 3 : 0
-  ',' fixcsv y
+  (',';'""') fixcsv y
   :
-  if. 1=#x do. sd=. '""'
-  else. sd=. 2$}.x end.
-  if. =/sd do.
-    x=. x,{.sd
+  dat=. y
+  x=. boxopen x
+  if. 1=#x do. x=. x,<'""' end.
+  'fd sd'=. 2{.x
+  if. =/sd do. sd=. (-<:#sd)}.sd   NB. empty, one or two same
   else.
-    s=. {.('|'={.x){ '|`'  NB. choose single sd
-    y=. y rplc ({.sd);s;({:sd);s
-    x=. x,s
+    s=. {.('|'=fd){ '|`'  NB. choose single sd
+    dat=. dat rplc ({.sd);s;({:sd);s
+    sd=. s
   end.
-  b=. y e. LF
-  c=. ~:/\y=1{x
+  b=. dat e. LF
+  c=. ~:/\ dat e. sd
   msk=. b > c
   > msk <@(x&chopcsv) ;._2 y
 )
 
 NB. =========================================================
 NB.*readcsv v Reads csv file into a boxed array
-NB. form: [fd[,sd0[,sd1]]] readcsv file
+NB. form: [fd[;sd0[,sd1]]] readcsv file
 NB. returns: array of boxed literals
 NB. y is: filename of file to read from
-NB. x is: optional delimiters. Default is ',""'
-NB.       0{ field delimiter (fd)
-NB.       1{ (start) string delimiter (sd0)
-NB.       2{ end string delimiter (sd1)
+NB. x is: literal or 1- or 2-item boxed list of optional delimiters.
+NB.       0{:: field delimiter (fd). Defaults to ','
+NB.   (1;0){:: (start) string delimiter (sd0). Defaults to '"'
+NB.   (1;1){:: end string delimiter (sd1). Defaults to '"'
+NB. eg: ('|';'<>') readcsv jpath '~temp/test.csv'
 readcsv=: 3 : 0
-  ',' readcsv y
+  (',';'""') readcsv y
   :
   dat=. freads extcsv y
   if. dat -: _1 do. return. end.
@@ -152,39 +156,43 @@ readcsv=: 3 : 0
 
 NB. =========================================================
 NB.*appendcsv v Appends an array to a csv file
-NB. form: dat appendcsv file[;fd[,sd0[,sd1]]]
+NB. form: dat appendcsv file[;fd[;sd0[,sd1]]]
 NB. returns: number of bytes appended or _1 if unsuccessful
-NB. y is: literal or 2-item list of boxed literals
+NB. y is: literal or a 2 or 3-item list of boxed literals
 NB.       0{ filename of file to append dat to
-NB.       1{ optional delimiters. Default is ',""'
-NB.          fd:field delimiter, sd0 & sd1:string delimiters
+NB.       1{ optional field delimiter. Default is ','
+NB.       2{ optional string delimiters, sd0 & sd1. Defaults are '""' 
 NB. x is: a J array
+NB. eg: (3 2$'hello world';4;84.3;'Big dig') appendcsv (jpath '~temp/test.csv');'|';'<>'
 appendcsv=: 4 : 0
-  'fln delim'=. 2{.!.(<',') boxopen y
-  dat=. delim makecsv x
+  args=. boxopen y
+  'fln fd sd'=. args,(#args)}.'';',';'""'
+  dat=. (fd;sd) makecsv x
   dat fappends extcsv fln
 )
 
 NB. =========================================================
 NB.*makecsv v Makes a CSV string from an array
 NB. returns: CSV string
-NB. form: [fd[,sd0[,sd1]]] makecsv array
+NB. form: [fd[;sd0[,sd1]]] makecsv array
 NB. y is: an array
 NB. x is: optional delimiters. Default is ',""'
 NB.       0{ is the field delimiter (fd)
 NB.       1{ is (start) string delimiter (sd0)
 NB.       2{ is end string delimiter (sd1)
 NB. Arrays are flattened to a max rank of 2.
+NB. eg: ('|';'<>') makecsv  3 2$'hello world';4;84.3;'Big dig'
 makecsv=: 3 : 0
-  ',""' makecsv y
+  (',';'""') makecsv y
   :
   dat=. y=. ,/^:(0>. _2+ [:#$) y NB. flatten to max rank 2
   dat=. y=. ,:^:(2<. 2- [:#$) y NB. raise to min rank 2
-  if. 1=#x do. sd=. '""'
-  else. sd=. 2$}.x end.
-  fd=. {.x
+  x=. boxopen x
+  if. 1=#x do. x=. x,<'""' end.
+  'fd sd'=. 2{.x
+  if. 1=#sd do. sd=. 2#sd end.
   NB. delim=. ',';',"';'",';'","';'';'"';'"'
-  delim=. fd ; (fd,{.sd) ; (({:sd),fd) ; (({:sd),fd,{.sd) ; '' ; ({.sd) ; {:sd
+  delim=. fd ; (fd,}:sd) ; ((}.sd),fd) ; ((}.sd),fd,}:sd) ; '' ; (}:sd) ; }.sd
   ischar=. ] e. 2 131072"_
   isreal=. ] e. 1 4 8 64 128"_
   
@@ -227,17 +235,18 @@ makecsv=: 3 : 0
 
 NB. =========================================================
 NB.*writecsv v Writes an array to a csv file
-NB. form: dat writecsv file[;fd[,sd0[,sd1]]]
+NB. form: dat writecsv file[;fd[;sd0[,sd1]]]
 NB. returns: number of bytes written (_1 if write error)
-NB. y is: literal or 2-item list of boxed literals
-NB.       0{ filename of file to write dat to
-NB.       1{ optional delimiters. Default is ',""'
-NB.          fd:field delimiter, sd0 & sd1:string delimiters
+NB. y is: literal or a 2 or 3-item list of boxed literals
+NB.       0{ filename of file to append dat to
+NB.       1{ optional field delimiter. Default is ','
+NB.       2{ optional string delimiters, sd0 & sd1. Defaults are '""' 
 NB. x is: an array
-NB. eg: (i.2 3 4) writecsv (jpath ~temp/test);';{}'
+NB. eg: (i.2 3 4) writecsv (jpath ~temp/test);'|';'{}'
 NB. An existing file will be written over.
 writecsv=: 4 : 0
-  'fln delim'=. 2{.!.(<',') boxopen y
-  dat=. delim makecsv x
+  args=. boxopen y
+  'fln fd sd'=. args,(#args)}.'';',';'""'
+  dat=. (fd;sd) makecsv x
   dat fwrites extcsv fln
 )

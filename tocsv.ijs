@@ -1,38 +1,42 @@
 NB. =========================================================
 NB.*appendcsv v Appends an array to a csv file
-NB. form: dat appendcsv file[;fd[,sd0[,sd1]]]
+NB. form: dat appendcsv file[;fd[;sd0[,sd1]]]
 NB. returns: number of bytes appended or _1 if unsuccessful
-NB. y is: literal or 2-item list of boxed literals
+NB. y is: literal or a 2 or 3-item list of boxed literals
 NB.       0{ filename of file to append dat to
-NB.       1{ optional delimiters. Default is ',""'
-NB.          fd:field delimiter, sd0 & sd1:string delimiters
+NB.       1{ optional field delimiter. Default is ','
+NB.       2{ optional string delimiters, sd0 & sd1. Defaults are '""' 
 NB. x is: a J array
+NB. eg: (3 2$'hello world';4;84.3;'Big dig') appendcsv (jpath '~temp/test.csv');'|';'<>'
 appendcsv=: 4 : 0
-  'fln delim'=. 2{.!.(<',') boxopen y
-  dat=. delim makecsv x
+  args=. boxopen y
+  'fln fd sd'=. args,(#args)}.'';',';'""'
+  dat=. (fd;sd) makecsv x
   dat fappends extcsv fln
 )
 
 NB. =========================================================
 NB.*makecsv v Makes a CSV string from an array
 NB. returns: CSV string
-NB. form: [fd[,sd0[,sd1]]] makecsv array
+NB. form: [fd[;sd0[,sd1]]] makecsv array
 NB. y is: an array
 NB. x is: optional delimiters. Default is ',""'
 NB.       0{ is the field delimiter (fd)
 NB.       1{ is (start) string delimiter (sd0)
 NB.       2{ is end string delimiter (sd1)
 NB. Arrays are flattened to a max rank of 2.
+NB. eg: ('|';'<>') makecsv  3 2$'hello world';4;84.3;'Big dig'
 makecsv=: 3 : 0
-  ',""' makecsv y
+  (',';'""') makecsv y
   :
   dat=. y=. ,/^:(0>. _2+ [:#$) y NB. flatten to max rank 2
   dat=. y=. ,:^:(2<. 2- [:#$) y NB. raise to min rank 2
-  if. 1=#x do. sd=. '""'
-  else. sd=. 2$}.x end.
-  fd=. {.x
+  x=. boxopen x
+  if. 1=#x do. x=. x,<'""' end.
+  'fd sd'=. 2{.x
+  if. 1=#sd do. sd=. 2#sd end.
   NB. delim=. ',';',"';'",';'","';'';'"';'"'
-  delim=. fd ; (fd,{.sd) ; (({:sd),fd) ; (({:sd),fd,{.sd) ; '' ; ({.sd) ; {:sd
+  delim=. fd ; (fd,}:sd) ; ((}.sd),fd) ; ((}.sd),fd,}:sd) ; '' ; (}:sd) ; }.sd
   ischar=. ] e. 2 131072"_
   isreal=. ] e. 1 4 8 64 128"_
   
@@ -75,17 +79,18 @@ makecsv=: 3 : 0
 
 NB. =========================================================
 NB.*writecsv v Writes an array to a csv file
-NB. form: dat writecsv file[;fd[,sd0[,sd1]]]
+NB. form: dat writecsv file[;fd[;sd0[,sd1]]]
 NB. returns: number of bytes written (_1 if write error)
-NB. y is: literal or 2-item list of boxed literals
-NB.       0{ filename of file to write dat to
-NB.       1{ optional delimiters. Default is ',""'
-NB.          fd:field delimiter, sd0 & sd1:string delimiters
+NB. y is: literal or a 2 or 3-item list of boxed literals
+NB.       0{ filename of file to append dat to
+NB.       1{ optional field delimiter. Default is ','
+NB.       2{ optional string delimiters, sd0 & sd1. Defaults are '""' 
 NB. x is: an array
-NB. eg: (i.2 3 4) writecsv (jpath ~temp/test);';{}'
+NB. eg: (i.2 3 4) writecsv (jpath ~temp/test);'|';'{}'
 NB. An existing file will be written over.
 writecsv=: 4 : 0
-  'fln delim'=. 2{.!.(<',') boxopen y
-  dat=. delim makecsv x
+  args=. boxopen y
+  'fln fd sd'=. args,(#args)}.'';',';'""'
+  dat=. (fd;sd) makecsv x
   dat fwrites extcsv fln
 )

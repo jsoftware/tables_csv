@@ -1,9 +1,15 @@
 tables/csv - change history
 
+== 1.0.3 ==
+ * chg: syntax change for custom delimiters 
+ * add: When creating csv strings:
+        - empty delimiters now allowed
+        - field delimiter of length > 1 allowed
+
 == 1.0.2 ==
  * add: verb makenumcol - converts columns of array to numeric
- * chg: standardize test methodology
  * fix: unescaping string delimiters more robust
+ * chg: standardize test methodology
 
 == 1.0.1 ==
  * fix: correct docs
