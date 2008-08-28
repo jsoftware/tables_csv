@@ -16,7 +16,8 @@ ts=: 6!:2 , 7!:2@]
 
 Note 'csv scripts'
  load 'tables/csv'
- load 'csv'
+ load '~system/packages/files/csv.ijs'
+ load '~Addons/tables/csv/csv.ijs'
 NB. the csv script in the base library
 NB. doesn't have a separate makecsv verb.
 NB. csv string creation is contained in the writecsv verb

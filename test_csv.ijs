@@ -19,6 +19,9 @@ a=: 0 : 0
 "165","MTe","195","23354.398","225"
 )
 
+a2=: ' ,one,  ''two,   ''''three'''',four'','''',''Ron''''s Stuff'','
+a3=: (,' ');'one';'  two,   ''three'',four';'';'Ron''s Stuff';''
+
 NB. columns of same type & empty fields
 p=. ,: 15;'Es';45;1.231;75
 p=. p, 90;'Rs are dumb';'';3.443;150
@@ -72,6 +75,7 @@ test=: 3 : 0
   assert. ''-: fixcsv ''
   assert. ('"a"',LF)-: makecsv 'a'
   assert. ('"a","b","c"',LF,'"d","a","b"',LF)-: makecsv 2 3$'abcd'
+  assert. a3 -: ',''' chopcsv a2
   assert. ('4',LF)-:makecsv 4
   assert. 3 5 -: $ fixcsv a
   assert. 4 7 -: $ fixcsv b

@@ -79,7 +79,6 @@ NB. x is: optional delimiters. Default is ',""'
 NB.       0{ field delimiter (fd)
 NB.       1{ (start) string delimiter (sd0)
 NB.       2{ end string delimiter (sd1)
-
 chopcsv=: 3 : 0
   ',""' chopcsv y
   :
@@ -87,7 +86,7 @@ chopcsv=: 3 : 0
   assert. (0<#x), 0=L.x
   if. 1=#x do. sd=. '""'
   else. sd=. 2$}.x end.
-  fd=. 1{.x
+  fd=. {.x
   if. =/sd do. sd=. {.sd
   else. NB. replace diff start and end delims with single
     s=. {.('|'=fd){ '|`'  NB. choose single sd
@@ -95,11 +94,12 @@ chopcsv=: 3 : 0
     sd=. s
   end.
   dat=. dat,fd
-  b=. dat e. fd
-  c=. ~:/\dat=sd
-  fmsk=. b>c NB. end of fields
-  smsk=. sd ([: (> (0: , }:)) =) dat NB. first in group of sds
-  smsk=. -. smsk +. (sd,fd) E. dat   NB. or previous to fd
+  b=. dat = fd
+  c=. dat = sd
+  d=. ~:/\ c                       NB. mask inside sds
+  fmsk=. b > d                     NB. end of fields
+  smsk=. (> (0 , }:)) c            NB. first in group of sds
+  smsk=. -. smsk +. c *. 1|.fmsk   NB. or previous to fd
   dat=. smsk#dat  NB. compress out string delims
   fmsk=. smsk#fmsk
   fmsk <;._2 dat  NB. box
