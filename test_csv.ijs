@@ -99,7 +99,7 @@ test=: 3 : 0
   assert. ''-: fixcsv ''
   assert. ('"a"',LF)-: makecsv 'a'
   assert. ('"a","b","c"',LF,'"d","a","b"',LF)-: makecsv 2 3$'abcd'
-  assert. aa2 -: (',';'''') chopcsv aa1
+  assert. aa2 -: (',';'''') chopstr_pdelim_ aa1
   assert. ('4',LF)-:makecsv 4
   assert. 3 5 -: $ fixcsv a
   assert. 4 7 -: $ fixcsv b
@@ -108,11 +108,10 @@ test=: 3 : 0
   assert. a3-: ('BiB';'"') makecsv fixcsv a
   assert. a4-: ('';'"') makecsv fixcsv a
   assert. a5-: ('';'') makecsv fixcsv a
-  assert. (8!:0 a1)-:(',';'') fixcsv (',';'') makecsv fixcsv a
+  assert. (8!:0 a1)-:(',';'') fixstr_pdelim_ (',';'') makecsv fixcsv a
   assert. b1-: makecsv fixcsv b
   assert. (fixcsv b)-: fixcsv makecsv fixcsv b
   assert. -. (makecsv fixcsv b)-: ';' makecsv fixcsv b
-  assert. (fixcsv b)-: ';' fixcsv ';' makecsv fixcsv b
   assert. (8!:0 b2)-: fixcsv makecsv b2
   assert. 8 3 -: $fixcsv makecsv 2 4 3$,b2
   nempty=. +/0=,#&> b2

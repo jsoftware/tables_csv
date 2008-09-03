@@ -7,6 +7,7 @@ PRIMARYFILES=: 0 : 0
 ~Addons/tables/csv/utils
 ~Addons/tables/csv/fromcsv
 ~Addons/tables/csv/tocsv
+~Addons/tables/csv/zfns
 )
 
 PRIMARYLIBS=: 0 : 0
@@ -27,7 +28,7 @@ OTHERFILES=: 0 : 0
 
 TARGETFILE=: '~Addons/tables/csv/csv.ijs'
 
-TARGETLOCALE=: 'z'
+TARGETLOCALE=: 'pcsv'
 
 TARGETHEADER=: ''
 
