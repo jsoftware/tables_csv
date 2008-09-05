@@ -6,7 +6,7 @@ NB. supports user-specified field and string delimiters.
 coclass 'pcsv'
 
 
-script_z_ '~Addons/tables/dsv/dsv.ijs'
+script_z_ '~addons/tables/dsv/dsv.ijs'
 coinsert 'pdsv'
 
 NB. =========================================================
