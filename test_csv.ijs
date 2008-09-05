@@ -19,33 +19,6 @@ a=: 0 : 0
 "165","MTe","195","23354.398","225"
 )
 
-a2=: 0 : 0
-15,Es,45,1.231,75
-90,Rs are dumb,,3.443,150
-165,MTe,195,23354.398,225
-)
-
-a3=: 0 : 0
-"15"BiB"Es"BiB"45"BiB"1.231"BiB"75"
-"90"BiB"Rs are dumb"BiB""BiB"3.443"BiB"150"
-"165"BiB"MTe"BiB"195"BiB"23354.398"BiB"225"
-)
-
-a4=: 0 : 0
-"15""Es""45""1.231""75"
-"90""Rs are dumb""""3.443""150"
-"165""MTe""195""23354.398""225"
-)
-
-a5=: 0 : 0
-15Es451.23175
-90Rs are dumb3.443150
-165MTe19523354.398225
-)
-
-aa1=: ' ,one,  ''two,   ''''three'''',four'','''',''Ron''''s Stuff'','
-aa2=: (,' ');'one';'  two,   ''three'',four';'';'Ron''s Stuff';''
-
 NB. columns of same type & empty fields
 p=. ,: 15;'Es';45;1.231;75
 p=. p, 90;'Rs are dumb';'';3.443;150
@@ -99,19 +72,15 @@ test=: 3 : 0
   assert. ''-: fixcsv ''
   assert. ('"a"',LF)-: makecsv 'a'
   assert. ('"a","b","c"',LF,'"d","a","b"',LF)-: makecsv 2 3$'abcd'
-  assert. aa2 -: (',';'''') chopstr_pdelim_ aa1
   assert. ('4',LF)-:makecsv 4
   assert. 3 5 -: $ fixcsv a
   assert. 4 7 -: $ fixcsv b
   assert. (fixcsv a) -: fixcsv makecsv a1
-  assert. a2-: (',';'') makecsv fixcsv a
-  assert. a3-: ('BiB';'"') makecsv fixcsv a
-  assert. a4-: ('';'"') makecsv fixcsv a
-  assert. a5-: ('';'') makecsv fixcsv a
-  assert. (8!:0 a1)-:(',';'') fixstr_pdelim_ (',';'') makecsv fixcsv a
+  assert. a-: makecsv fixcsv a
+  assert. (8!:0 a1)-:(',';'') fixdsv (',';'') makedsv fixcsv a
   assert. b1-: makecsv fixcsv b
   assert. (fixcsv b)-: fixcsv makecsv fixcsv b
-  assert. -. (makecsv fixcsv b)-: ';' makecsv fixcsv b
+  assert. -. (makecsv fixcsv b)-: ';' makedsv fixcsv b
   assert. (8!:0 b2)-: fixcsv makecsv b2
   assert. 8 3 -: $fixcsv makecsv 2 4 3$,b2
   nempty=. +/0=,#&> b2
@@ -131,12 +100,6 @@ test=: 3 : 0
   d appendcsv t1
   assert. 7 5 -: $readcsv t1
   assert. (readcsv t1) -: fixcsv a, makecsv d
-  d writecsv t1;'|'
-  assert. (freads t1) -: '|' makecsv d
-  assert. ('|' readcsv t1) -: fixcsv makecsv d
-  b2 writecsv t1;'|';'<>'
-  assert. (freads t1) -: ('|';'<>') makecsv b2
-  assert. (('|';'<>') readcsv t1) -: fixcsv makecsv b2
   
   assert. 1 = ferase t1
   

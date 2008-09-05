@@ -10,10 +10,7 @@ PRIMARYFILES=: 0 : 0
 ~Addons/tables/csv/zfns
 )
 
-PRIMARYLIBS=: 0 : 0
-files
-strings
-)
+PRIMARYLIBS=: ''
 
 DEVFILES=: ''
 

@@ -1,13 +1,11 @@
 tables/csv - change history
 
 == 1.0.4 ==
- * chg: general utils factored out to new text/delimited addon
- * chg: chopcsv and fixcsv now monadic covers of general utils
+ * chg: tables/csv verbs now simple covers of general routines in new tables/dsv addon
+ * chg: tables/csv requires tables/dsv addon is installed
  * chg: tables/csv addon populates pcsv locale
- * chg: tables/csv requires text/delimited addon is installed
- * chg: simplify code (x arg handling)
  * fix: if string delimiter for makecsv is empty, mixed-type routine no longer used
- * chg: minor doc improvements/corrections
+ * chg: docs updated accordingly
 
 == 1.0.3 ==
  * chg: syntax change for custom delimiters 
