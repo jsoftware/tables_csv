@@ -1,8 +1,9 @@
 NB. =========================================================
-NB. read/write comma-separated value data (*.csv) files
-NB. supports user-specified field and string delimiters.
+NB. tables/csv
+NB. Read/write comma-separated value data (*.csv) files
+NB. Special case of tables/dsv addon.
 
-script_z_ '~addons/tables/dsv/dsv.ijs'
+require 'tables/dsv'
 
 coclass 'pcsv'
 coinsert 'pdsv'
