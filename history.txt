@@ -1,6 +1,6 @@
 tables/csv - change history
 
-== 1.0.4/5 ==
+== 1.0.4/6 ==
  * chg: tables/csv verbs now simple covers of general routines in new tables/dsv addon
  * chg: tables/csv requires tables/dsv addon is installed
  * chg: tables/csv addon populates pcsv locale

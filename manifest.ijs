@@ -11,9 +11,9 @@ Note: requires that the tables/dsv addon also be installed.
 Contributed by Ric Sherlock.
 )
 
-VERSION=: '1.0.5'
+VERSION=: '1.0.6'
 
-RELEASE=: 'j602'
+RELEASE=: 'j701 j602'
 
 PLATFORMS=: 'win linux darwin'
 
