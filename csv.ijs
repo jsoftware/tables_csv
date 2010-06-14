@@ -1,15 +1,12 @@
-NB. built from project: ~Addons/tables/csv/csv
 NB. =========================================================
 NB. tables/csv
 NB. Read/write comma-separated value data (*.csv) files
 NB. Special case of tables/dsv addon.
 
-
 require 'tables/dsv'
 
 coclass 'pcsv'
 coinsert 'pdsv'
-
 NB. =========================================================
 NB. Utils for csv
 
@@ -19,8 +16,6 @@ getfnme=: #~ ([: *./\. '/'&~:)
 
 NB. extcsv v adds '.csv' extension if none present
 extcsv=: , ('.csv' #~ '.'&e. < 0 < #)@getfnme@stdpathsep
-
-
 NB. =========================================================
 NB. Converting from csv files/strings to J array
 
@@ -47,8 +42,6 @@ NB. form: readcsv file
 NB. eg: readcsv jpath '~temp/test.csv'
 NB. y is: filename of file to read from
 readcsv=: (',';'""')&readdsv@extcsv
-
-
 NB. =========================================================
 NB. Converting from J array to csv files/strings
 
@@ -83,8 +76,6 @@ NB. x is: an array to write as csv
 writecsv=: 4 : 0
   x writedsv (extcsv y);',';'""'
 )
-
-
 NB. =========================================================
 NB. Verbs exported to z locale
 
@@ -94,4 +85,3 @@ fixcsv_z_=:fixcsv_pcsv_
 makecsv_z_=:makecsv_pcsv_
 readcsv_z_=:readcsv_pcsv_
 writecsv_z_=:writecsv_pcsv_
-
