@@ -15,7 +15,7 @@ VERSION=: '1.0.7'
 
 RELEASE=: 'j701 j602'
 
-PLATFORMS=: 'win linux darwin'
+PLATFORMS=: ''
 
 DEPENDS=: 0 : 0
 tables/dsv
