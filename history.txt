@@ -1,7 +1,7 @@
 tables/csv - change history
 
 == 1.0.9 ==
- * j801
+ * chg: update for j801
 
 == 1.0.7 ==
  * fix: extcsv verb so compatible with both J6 and J7
