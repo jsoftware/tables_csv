@@ -15,7 +15,7 @@ VERSION=: '1.0.10'
 
 RELEASE=: 'j802 j801 j701 j602'
 
-PLATFORMS=: ''
+PLATFORMS=: 'linux win darwin android'
 
 DEPENDS=: 0 : 0
 tables/dsv
