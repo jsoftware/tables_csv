@@ -11,9 +11,9 @@ Note: requires that the tables/dsv addon also be installed.
 Contributed by Ric Sherlock.
 )
 
-VERSION=: '1.0.13'
+VERSION=: '1.0.14'
 
-RELEASE=: 'j803 j804 j802 j801 j701 j602'
+RELEASE=: 'j803 j804 j805 j802 j801 j701 j602'
 
 PLATFORMS=: ''
 
