@@ -1,0 +1,10 @@
+NB. project: ~Addons/tables/csv/source/source
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+utils.ijs
+fromcsv.ijs
+tocsv.ijs
+zfns.ijs
