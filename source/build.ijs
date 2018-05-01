@@ -1,6 +1,6 @@
 NB. build
 
-writesource_jp_ '~Addons/tables/csv/source/source';'~Addons/tables/csv/csv.ijs'
+writesource_jp_ '~Addons/tables/csv/source';'~Addons/tables/csv/csv.ijs'
 
 (jpath '~addons/tables/csv/csv.ijs') (fcopynew ::0:) jpath '~Addons/tables/csv/csv.ijs'
 
